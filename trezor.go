@@ -14,6 +14,12 @@ func New() cryptoWalletInterfaces.Trezor {
 		ProductIDs: []uint16{1 /* Trezor One */},
 	})
 	if len(result) == 0 {
+		result := cryptoWallet.Find(cryptoWallet.Filter{
+			VendorID:   &[]uint16{vendors.GetVendorID("interbiometrics")}[0],
+			ProductIDs: []uint16{0x53C1 /* Trezor T */},
+		})
+	}
+	if len(result) == 0 {
 		return nil
 	}
 	return result[0].(cryptoWalletInterfaces.Trezor)
